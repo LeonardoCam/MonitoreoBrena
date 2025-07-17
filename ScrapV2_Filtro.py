@@ -107,7 +107,7 @@ def enviar_alerta_telegram(row):
     else:
         print(f"❌ Error al enviar alerta: {response.text}")
 
-def observar_emergencias_bg(frecuencia=120, distritos_filtrados=None):
+def observar_emergencias_bg(frecuencia=300, distritos_filtrados=None):
     ultimas_partes = set()
     while True:
         try:
@@ -140,6 +140,8 @@ if __name__ == "__main__":
     t = threading.Thread(target=observar_emergencias_bg, args=(300, mis_distritos), daemon=True)
     t.start()
     app.run(debug=True, use_reloader=False)
+    port = int(os.environ.get("PORT", 5000))  # Render asigna el puerto en la variable de entorno PORT
+    app.run(host="0.0.0.0", port=port, debug=True, use_reloader=False)
 
 
 
