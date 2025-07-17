@@ -107,7 +107,7 @@ def enviar_alerta_telegram(row):
     else:
         print(f"❌ Error al enviar alerta: {response.text}")
 
-def observar_emergencias_bg(frecuencia=300, distritos_filtrados=None):
+def observar_emergencias_bg(frecuencia=120, distritos_filtrados=None):
     ultimas_partes = set()
     while True:
         try:
