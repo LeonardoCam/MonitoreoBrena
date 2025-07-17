@@ -5,6 +5,7 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 import re
+import os
 
 def obtener_emergencias(distritos_filtrados=None):
     """
@@ -84,8 +85,8 @@ def obtener_emergencias(distritos_filtrados=None):
     return df
 
 # Configura tu bot y chat de Telegram
-BOT_TOKEN = '7563492758:AAH9x-Fyha-y1-bkVpqoTE9Hfwt3-KV8hS4'
-CHAT_ID = '-4856830079'  # Puede ser tu id personal, de grupo o canal
+BOT_TOKEN = os.environ.get("BOT_TOKEN")
+CHAT_ID = os.environ.get("CHAT_ID")
 
 def enviar_alerta_telegram(row):
     mensaje = (
