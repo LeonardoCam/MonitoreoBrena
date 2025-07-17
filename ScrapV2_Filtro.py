@@ -133,16 +133,12 @@ app = Flask(__name__)
 def home():
     return 'App web + bot observador funcionando'
 
-# Y en el main:
-
 if __name__ == "__main__":
     mis_distritos = ["JESUS MARIA", "BREÑA", "PUEBLO LIBRE", "LIMA"]  # aquí defines tus distritos de interés
     t = threading.Thread(target=observar_emergencias_bg, args=(300, mis_distritos), daemon=True)
     t.start()
-    app.run(debug=True, use_reloader=False)
     port = int(os.environ.get("PORT", 5000))  # Render asigna el puerto en la variable de entorno PORT
     app.run(host="0.0.0.0", port=port, debug=True, use_reloader=False)
-
 
 
 
