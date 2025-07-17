@@ -107,8 +107,20 @@ def enviar_alerta_telegram(row):
     else:
         print(f"❌ Error al enviar alerta: {response.text}")
 
+def cargar_ultimas_partes(path="notificados.txt"):
+    try:
+        with open(path, "r") as f:
+            return set(line.strip() for line in f)
+    except FileNotFoundError:
+        return set()
+
+def guardar_ultimas_partes(ultimas_partes, path="notificados.txt"):
+    with open(path, "w") as f:
+        for parte in ultimas_partes:
+            f.write(parte + "\n")
+
 def observar_emergencias_bg(frecuencia=300, distritos_filtrados=None):
-    ultimas_partes = set()
+    ultimas_partes = cargar_ultimas_partes()  # Carga historial al iniciar
     while True:
         try:
             df = obtener_emergencias(distritos_filtrados=distritos_filtrados)
@@ -121,6 +133,7 @@ def observar_emergencias_bg(frecuencia=300, distritos_filtrados=None):
             if nuevos:
                 for fila in nuevos:
                     enviar_alerta_telegram(fila)
+                guardar_ultimas_partes(ultimas_partes)  # Guarda historial actualizado
             time.sleep(frecuencia)
         except Exception as e:
             print("Error en observador:", e)
